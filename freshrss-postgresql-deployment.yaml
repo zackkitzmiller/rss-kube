@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: freshrss-postgresql
+  name: freshrss-postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: freshrss-postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: freshrss-postgresql
+        app: freshrss-postgresql
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          value: freshrss
+        - name: POSTGRES_PASSWORD
+          value: freshrss
+        - name: POSTGRES_USER
+          value: freshrss
+        image: postgres
+        imagePullPolicy: ""
+        ports:
+          - containerPort: 5432
+        name: freshrss-db
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/freshrss-data
+          name: pgsql-data
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: pgsql-data
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim
+status: {}

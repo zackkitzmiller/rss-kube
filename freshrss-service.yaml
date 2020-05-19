@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: freshrss
+  name: freshrss
+spec:
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 80
+  selector:
+    io.kompose.service: freshrss
+  type: LoadBalancer
+  loadBalancerIP: "34.75.9.114"
+status:
+  loadBalancer: {}
